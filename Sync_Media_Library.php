@@ -17,8 +17,6 @@ function gform_synchronise_media_library($entry, $form) {
                 $file = $upload_to_url['basedir'] . '/resumes/' . $post_id . '/' . $filename; //get the whole location
             file_put_contents($file, $file_data);
         }
-        $upload_root = RGFormsModel::get_upload_root();
-        //$attachment_url = preg_replace('|^(.*?)/gravity_forms/|', $upload_root, $url);
         $wp_filetype = wp_check_filetype($filename, null );
         $attachment = array(
             'post_title' => sanitize_file_name($filename),
@@ -27,7 +25,6 @@ function gform_synchronise_media_library($entry, $form) {
             'post_mime_type' => $wp_filetype['type']
 
         );
-        error_log(var_dump($attachment));
         $attach_id = wp_insert_attachment($attachment, $file, $post_id);
         $attach_data = wp_generate_attachment_metadata($attach_id, $file);
         wp_update_attachment_metadata( $attach_id, $attach_data);
